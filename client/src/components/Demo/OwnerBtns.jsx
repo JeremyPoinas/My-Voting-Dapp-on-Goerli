@@ -3,22 +3,10 @@ import useEth from "../../contexts/EthContext/useEth";
 
 function OwnerBtns() {
   const { state: { contract, accounts } } = useEth();
-  const [inputValue, setInputValue] = useState("");
   const [voterToAdd, setVoterToAdd] = useState("");
-  const [voterToGet, setVoterToGet] = useState("");
-
-  const handleInputChange = e => {
-    if (/^\d+$|^$/.test(e.target.value)) {
-      setInputValue(e.target.value);
-    }
-  };
 
   const handleAddVoterAddressChange = e => {
     setVoterToAdd(e.target.value);
-  };
-
-  const handleGetVoterAddressChange = e => {
-    setVoterToGet(e.target.value);
   };
 
   const addVoter = async () => {
@@ -75,18 +63,6 @@ function OwnerBtns() {
     }
   };
 
-  const write = async e => {
-    if (e.target.tagName === "INPUT") {
-      return;
-    }
-    if (inputValue === "") {
-      alert("Please enter a value to write.");
-      return;
-    }
-    const newValue = parseInt(inputValue);
-    await contract.methods.write(newValue).send({ from: accounts[0] });
-  };
-
   return (
     <div className="btns">
 
@@ -119,16 +95,6 @@ function OwnerBtns() {
         value={voterToAdd}
         onChange={handleAddVoterAddressChange}
       />
-
-      <div onClick={write} className="input-btn">
-        write(<input
-          type="text"
-          placeholder="uint"
-          value={inputValue}
-          onChange={handleInputChange}
-        />)
-      </div>
-
     </div>
   );
 }
