@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import useEth from "../contexts/EthContext/useEth";
 
+// Actions accessible only for the smart contract's owner
 function OwnerBtns({ workflowStatus, setWorkflowStatus, setIsVoter, getWinningProposalID, getWorkflowStatus }) {
   const { state: { contract, accounts } } = useEth();
   const [voterToAdd, setVoterToAdd] = useState("");
@@ -13,6 +14,7 @@ function OwnerBtns({ workflowStatus, setWorkflowStatus, setIsVoter, getWinningPr
     setVoterToAdd(e.target.value);
   };
 
+  // Register a new voter and set the associated state variable
   const addVoter = async () => {
     try {
       await contract.methods.addVoter(voterToAdd).call({ from: accounts[0] });
@@ -25,6 +27,7 @@ function OwnerBtns({ workflowStatus, setWorkflowStatus, setIsVoter, getWinningPr
     }
   };
 
+  // Start the proposal registering and update the workflow status state
   const startProposalsRegistering = async () => {
     try {
       await contract.methods.startProposalsRegistering().call({ from: accounts[0] });
@@ -35,6 +38,7 @@ function OwnerBtns({ workflowStatus, setWorkflowStatus, setIsVoter, getWinningPr
     }
   };
 
+  // End the proposal registering and update the workflow status state
   const endProposalsRegistering = async () => {
     try {
       await contract.methods.endProposalsRegistering().call({ from: accounts[0] });
@@ -45,6 +49,7 @@ function OwnerBtns({ workflowStatus, setWorkflowStatus, setIsVoter, getWinningPr
     }
   };
 
+  // Start the voting session and update the workflow status state
   const startVotingSession = async () => {
     try {
       await contract.methods.startVotingSession().call({ from: accounts[0] });
@@ -55,6 +60,7 @@ function OwnerBtns({ workflowStatus, setWorkflowStatus, setIsVoter, getWinningPr
     }
   };
 
+  // End the voting session and update the workflow status state
   const endVotingSession = async () => {
     try {
       await contract.methods.endVotingSession().call({ from: accounts[0] });
@@ -65,6 +71,7 @@ function OwnerBtns({ workflowStatus, setWorkflowStatus, setIsVoter, getWinningPr
     }
   };
 
+  // Tally votes and update the workflow status state + winning proposal state
   const tallyVotes = async () => {
     try {
       await contract.methods.tallyVotes().call({ from: accounts[0] });
@@ -77,6 +84,7 @@ function OwnerBtns({ workflowStatus, setWorkflowStatus, setIsVoter, getWinningPr
   };
 
   useEffect(() => {
+    // Initiate workflow status when contract is loaded
     const getWorkflowStatus = async () => {
       try {
         const workflowStatus = await contract.methods.workflowStatus().call({ from: accounts[0] });

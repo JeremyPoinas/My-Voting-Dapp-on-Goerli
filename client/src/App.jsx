@@ -17,8 +17,10 @@ function App() {
   const [winningProposalId, setWinningProposalId] = useState(0);
   const [pageToDisplay, setPagetoDisplay] = useState('');
 
+  // Check if the account connected is the owner
   const isOwner = accounts?.includes(owner);
 
+  // Get the winning proposal ID and set the associated state
   const getWinningProposalID = async () => {
     try {
       const winningProposalId = await contract.methods.winningProposalID().call({ from: accounts[0] });
@@ -28,7 +30,7 @@ function App() {
     }
   };
 
-
+  // Get the workflow statuts and set the associated state
   const getWorkflowStatus = async () => {
     try {
       const workflowStatus = await contract.methods.workflowStatus().call({ from: accounts[0] });
@@ -44,6 +46,7 @@ function App() {
         setPagetoDisplay('admin');
       };
   
+      // Check if the account connected is a voter
       const isVoter = async () => {
         try {
           const voter = await contract?.methods.getVoter(accounts[0]).call({ from: accounts[0] });
@@ -80,6 +83,7 @@ function App() {
       .on('data', event => alert(`Voter ${event.returnValues.voter} has successfully voted for ${event.returnValues.proposalId}!`));
 
     return () => {
+      // Remove event listeners to avoid duplicates
       workflowStatusSub?.unsubscribe();
       voterRegisteredSub?.unsubscribe();
       proposalRegisteredSub?.unsubscribe();

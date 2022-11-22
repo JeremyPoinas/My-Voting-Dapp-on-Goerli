@@ -29,6 +29,7 @@ function VoterBtns({ workflowStatus }) {
     setProposalToGet(e.target.value);
   };
 
+  // Get a voter using the voterToGet state
   const getVoter = async () => {
     try {
       const voter = await contract.methods.getVoter(voterToGet).call({ from: accounts[0] });
@@ -42,6 +43,7 @@ function VoterBtns({ workflowStatus }) {
     }
   };
 
+  // Get a proposal using the proposalToGet state
   const getOneProposal = async () => {
     try {
       const proposal = await contract.methods.getOneProposal(proposalToGet).call({ from: accounts[0] });
@@ -53,6 +55,7 @@ function VoterBtns({ workflowStatus }) {
     }
   };
 
+  // Get all proposals and update the associated state
   const getProposals = async () => {
     let proposals = [];
     for (let id = 1;; id++) {
@@ -66,6 +69,7 @@ function VoterBtns({ workflowStatus }) {
     setProposals(proposals);
   };
 
+  // Add a new proposal and update the proposals state
   const addProposal = async () => {
     try {
       await contract.methods.addProposal(proposalToAdd).call({ from: accounts[0] });
@@ -76,6 +80,7 @@ function VoterBtns({ workflowStatus }) {
     }
   };
 
+  // Vote and update the proposals state
   const setVote = async (id) => {
     try {
       await contract.methods.setVote(id).call({ from: accounts[0] });
@@ -87,6 +92,7 @@ function VoterBtns({ workflowStatus }) {
   };
 
   useEffect(() => {
+    // Initiate the proposals' list
     getProposals();
   }, [contract, accounts]);
 

@@ -11,6 +11,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
+// Menu bar on top of the screen
 export default function Intro({ setPagetoDisplay, isOwner, isVoter, workflowStatus }) {
   const { state: { accounts } } = useEth();
   const status = [
