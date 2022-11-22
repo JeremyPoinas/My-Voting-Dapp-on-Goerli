@@ -84,7 +84,7 @@ contract Voting is Ownable {
     /// @param _desc Proposal's description
     function addProposal(string calldata _desc) external onlyVoters {
         require(workflowStatus == WorkflowStatus.ProposalsRegistrationStarted, 'Proposals are not allowed yet');
-        require(voters[msg.sender].proposalsAdded < 4, 'A voter can add a maximum of 3 proposals');
+        require(voters[msg.sender].proposalsAdded < 3, 'A voter can add a maximum of 3 proposals');
         require(keccak256(abi.encode(_desc)) != keccak256(abi.encode("")), 'Vous ne pouvez pas ne rien proposer'); // facultatif
         // voir que desc est different des autres
 

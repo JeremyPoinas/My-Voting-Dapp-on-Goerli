@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react";
 import useEth from "../../contexts/EthContext/useEth";
-import Title from "./Title";
-import Cta from "./Cta";
-import OwnerBtns from "./OwnerBtns";
-import VoterBtns from "./VoterBtns";
+import OwnerBtns from "../OwnerBtns";
+import VoterBtns from "../VoterBtns";
 import Proposal from "./Proposal";
-import Desc from "./Desc";
-import NoticeNoArtifact from "./NoticeNoArtifact";
+import NoticeNoAccounts from "./NoticeNoAccounts";
 import NoticeWrongNetwork from "./NoticeWrongNetwork";
 
 function Demo() {
-  const { state: { artifact, contract, accounts, owner } } = useEth();
+  const { state: { contract, accounts, owner } } = useEth();
   const [proposals, setProposals] = useState([]);
   const [isVoter, setIsVoter] = useState(false);
   const [workflowStatus, setWorkflowStatus] = useState('');
@@ -92,7 +89,6 @@ function Demo() {
 
   const demo =
     <>
-      <Cta />
       <div className="contract-container">
         <div>
           Voting status: {workflowStatus}
@@ -102,19 +98,16 @@ function Demo() {
         </div>
         {isOwner && <OwnerBtns />}
         {isVoter  && <VoterBtns />}
+        </div>
+          {isVoter && proposals.map((proposal, id) => <Proposal key={id} proposal={proposal} />)}
+        <div>
       </div>
-        {isVoter && proposals.map((proposal, id) => <Proposal key={id} proposal={proposal} />)}
-      <div>
-
-      </div>
-      <Desc />
     </>;
 
   return (
     <div className="demo">
-      <Title />
       {
-        !artifact ? <NoticeNoArtifact /> :
+        !accounts ? <NoticeNoAccounts /> :
           !contract ? <NoticeWrongNetwork /> :
             demo
       }
