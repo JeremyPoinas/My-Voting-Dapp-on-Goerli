@@ -11,8 +11,16 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-export default function Intro({ setPagetoDisplay, isOwner, isVoter }) {
+export default function Intro({ setPagetoDisplay, isOwner, isVoter, workflowStatus }) {
   const { state: { accounts } } = useEth();
+  const status = [
+    'Registering Voters',
+    'Registering proposals',
+    'Proposals registered',
+    'Voting session ongoing',
+    'Voting session completed',
+    'Votes tallied'
+  ];
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -38,7 +46,8 @@ export default function Intro({ setPagetoDisplay, isOwner, isVoter }) {
           >
             Voting session
           </IconButton>}
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h3" component="div" align='center' sx={{ flexGrow: 1 }}>
+            {status[workflowStatus]}
           </Typography>
           {accounts && (
             <div>

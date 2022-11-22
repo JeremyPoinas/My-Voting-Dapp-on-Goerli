@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import useEth from "../contexts/EthContext/useEth";
 
-function OwnerBtns({ workflowStatus, setWorkflowStatus, setIsVoter }) {
+function OwnerBtns({ workflowStatus, setWorkflowStatus, setIsVoter, getWinningProposalID, getWorkflowStatus }) {
   const { state: { contract, accounts } } = useEth();
   const [voterToAdd, setVoterToAdd] = useState("");
 
@@ -29,7 +29,7 @@ function OwnerBtns({ workflowStatus, setWorkflowStatus, setIsVoter }) {
     try {
       await contract.methods.startProposalsRegistering().call({ from: accounts[0] });
       await contract.methods.startProposalsRegistering().send({ from: accounts[0] });
-      setWorkflowStatus('1');
+      getWorkflowStatus();
     } catch (err) {
       alert(err);
     }
@@ -39,7 +39,7 @@ function OwnerBtns({ workflowStatus, setWorkflowStatus, setIsVoter }) {
     try {
       await contract.methods.endProposalsRegistering().call({ from: accounts[0] });
       await contract.methods.endProposalsRegistering().send({ from: accounts[0] });
-      setWorkflowStatus('2');
+      getWorkflowStatus();
     } catch (err) {
       alert(err);
     }
@@ -49,7 +49,7 @@ function OwnerBtns({ workflowStatus, setWorkflowStatus, setIsVoter }) {
     try {
       await contract.methods.startVotingSession().call({ from: accounts[0] });
       await contract.methods.startVotingSession().send({ from: accounts[0] });
-      setWorkflowStatus('3');
+      getWorkflowStatus();
     } catch (err) {
       alert(err);
     }
@@ -59,7 +59,7 @@ function OwnerBtns({ workflowStatus, setWorkflowStatus, setIsVoter }) {
     try {
       await contract.methods.endVotingSession().call({ from: accounts[0] });
       await contract.methods.endVotingSession().send({ from: accounts[0] });
-      setWorkflowStatus('4');
+      getWorkflowStatus();
     } catch (err) {
       alert(err);
     }
@@ -69,7 +69,8 @@ function OwnerBtns({ workflowStatus, setWorkflowStatus, setIsVoter }) {
     try {
       await contract.methods.tallyVotes().call({ from: accounts[0] });
       await contract.methods.tallyVotes().send({ from: accounts[0] });
-      setWorkflowStatus('5');
+      getWorkflowStatus();
+      getWinningProposalID();
     } catch (err) {
       alert(err);
     }
@@ -107,18 +108,21 @@ function OwnerBtns({ workflowStatus, setWorkflowStatus, setIsVoter }) {
             workflowStatus === '4' && <Button variant="contained" onClick={tallyVotes}>Find the winning proposal</Button>
           }
         </Grid>
-        <Grid item xs={8}>
-          <Stack spacing={2} direction="row">
-            <Button variant="contained" onClick={addVoter}>Add a voter</Button>
-            <TextField 
-              id="outlined-basic"
-              label="Type address.."
-              variant="outlined"
-              value={voterToAdd}
-              onChange={handleAddVoterAddressChange}
-            />
-          </Stack>
-        </Grid>
+        {
+          workflowStatus === '0' && 
+          <Grid item xs={8}>
+            <Stack spacing={2} direction="row">
+              <Button variant="contained" onClick={addVoter}>Add a voter</Button>
+              <TextField 
+                id="outlined-basic"
+                label="Type address.."
+                variant="outlined"
+                value={voterToAdd}
+                onChange={handleAddVoterAddressChange}
+              />
+            </Stack>
+          </Grid>
+        }
       </Grid>
     </div>
   );
