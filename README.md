@@ -1,4 +1,4 @@
-# React Truffle Box
+# My Voting Dapp
 
 Link for the Dapp Demo on Loom (video duration is long due to Metamask latency, sorry!): https://www.loom.com/share/fe3a17aaae4f4ca382d629770b93476b
 
